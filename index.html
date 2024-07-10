@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            font-family: 'Pretendard-Regular';
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        #container {
+            padding: 5% 30px 12%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-image: url('bnM.png');
+            background-size: 100%;
+            background-repeat: no-repeat;
+            width: 22vw;
+            height: 64vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            justify-content: space-between;
+            margin: 10px
+        }
+
+        textarea,
+        button {
+            width: 100%;
+            border: none;
+            padding: 12px 20px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 60%;
+        }
+        button {
+            background-color: #e2ddd7;
+        }
+
+        .result {
+            text-align: center;
+            height: 50px;
+            background-color: rgba(255, 255, 255, .3);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #474747;
+            font-weight: bold;
+            border: 2px solid #507d38;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <p id="result1" class="result"></p>
+        <textarea id="nameInput1" placeholder="이름을 입력하세요"></textarea>
+        <button id="drawButton1">추첨</button>
+    </div>
+
+    <script>
+        document.getElementById('drawButton1').addEventListener('click', function () {
+            var input = document.getElementById('nameInput1').value;
+            var nameList = input.split("\n");
+            var index = Math.floor(Math.random() * nameList.length);
+            document.getElementById('result1').innerText = nameList[index];
+        });
+    </script>
+</body>
+
+</html>
