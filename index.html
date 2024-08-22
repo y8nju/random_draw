@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
       @font-face {
         font-family: "Pretendard-Regular";
@@ -31,6 +32,20 @@
         width: 100%;
       }
 
+      textarea,
+      button {
+        width: 100%;
+        border: none;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+
+      textarea {
+        height: 60%;
+      }
+
       #container {
         padding: 60px 30px 140px;
         background-color: #77a565;
@@ -48,23 +63,6 @@
         justify-content: space-between;
       }
 
-      textarea,
-      button {
-        width: 100%;
-        border: none;
-        padding: 12px 20px;
-        box-sizing: border-box;
-        border-radius: 4px;
-        font-size: 1rem;
-      }
-
-      textarea {
-        height: 60%;
-      }
-      button {
-        background-color: #e2ddd7;
-      }
-
       .result {
         text-align: center;
         height: max(10%, 2rem);
@@ -76,6 +74,20 @@
         color: #474747;
         font-weight: bold;
         border: 2px solid #507d38;
+      }
+
+      .btnWrap {
+        display: flex;
+        gap: 10px;
+        button {
+          background-color: #e2ddd7;
+        }
+        button#resetButton {
+          display: none;
+          width: min-content;
+          background-color: #ffc967;
+          color: #fff;
+        }
       }
 
       @media screen and (max-width: 324px) {
@@ -92,19 +104,47 @@
       <div id="container">
         <p id="result1" class="result"></p>
         <textarea id="nameInput1" placeholder="이름을 입력하세요"></textarea>
-        <button id="drawButton1">추첨</button>
+        <div class="btnWrap">
+          <button id="drawButton1" onclick="handleDraw()">추첨하기</button>
+          <button id="resetButton" onclick="handleReset()">↻</button>
+        </div>
       </div>
     </main>
 
     <script>
-      document
-        .getElementById("drawButton1")
-        .addEventListener("click", function () {
-          var input = document.getElementById("nameInput1").value;
-          var nameList = input.split("\n");
-          var index = Math.floor(Math.random() * nameList.length);
-          document.getElementById("result1").innerText = nameList[index];
-        });
+      let resultList = [];
+      let nameList = [];
+      let count = 0;
+      const input = document.getElementById("nameInput1");
+      const drawBtn = document.getElementById("drawButton1");
+      const resetBtn = document.getElementById("resetButton");
+      const result = document.getElementById("result1");
+
+      function handleDraw() {
+        if (count === 0) {
+          let filtered = input.value.split("\n").filter((el) => el !== "");
+          nameList = filtered;
+          console.log(nameList);
+          drawBtn.innerText = "추가로 추첨하기";
+          resetBtn.style.display = "inline-block";
+        }
+        let index = Math.floor(Math.random() * nameList.length);
+        resultList.push(nameList[index]);
+        console.log();
+        input.value = input.value.replace(nameList[index] + "\n", "");
+        nameList.splice(index, 1);
+        console.log(nameList);
+        result.innerText = resultList.join(", ");
+        count++;
+      }
+
+      function handleReset() {
+        input.value = "";
+        resultList = [];
+        nameList = [];
+        count = 0;
+        result.innerText = "";
+      }
     </script>
   </body>
 </html>
